@@ -4,6 +4,7 @@ import {
   command,
   flag,
   option,
+  optional,
   restPositionals,
   string,
 } from 'cmd-ts';
@@ -29,7 +30,7 @@ export default command({
       description: 'Should the decrypted content be written to stdout instead?',
     }),
     envKey: option({
-      type: string,
+      type: optional(string),
       short: 'e',
       long: 'env-key',
       description:
