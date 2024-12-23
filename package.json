@@ -23,6 +23,7 @@
     "age-encryption": "^0.1.5",
     "cmd-ts": "^0.13.0",
     "cross-fetch": "^4.0.0",
+    "dotenv": "^16.4.7",
     "ignore": "^5.3.1",
     "lodash-es": "^4.17.21",
     "open-editor": "^5.0.0",
