@@ -18,9 +18,12 @@
   ],
   "author": "Stefano Verna <s.verna@datocms.com>",
   "license": "MIT",
+  "engines": {
+    "node": ">=20.19.0"
+  },
   "dependencies": {
     "@types/lodash-es": "^4.17.12",
-    "age-encryption": "^0.1.5",
+    "age-encryption": "^0.3.0",
     "cmd-ts": "^0.13.0",
     "cross-fetch": "^4.0.0",
     "dotenv": "^16.4.7",

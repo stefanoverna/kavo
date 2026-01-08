@@ -1,5 +1,5 @@
 import { dirname, resolve } from 'node:path';
-import age from 'age-encryption';
+import { Decrypter, Encrypter } from 'age-encryption';
 import { configFile } from './configFile';
 import { findRecipientIds, findRecipientPublicKeys } from './keyringFile';
 import { askPrivateKey } from './prompt';
@@ -11,7 +11,6 @@ const footer = '-----END AGE ENCRYPTED FILE-----';
 let recipientsAlreadyCommunicated = false;
 
 export async function encryptMessage(message: string): Promise<string> {
-  const { Encrypter } = await age();
   const encrypter = new Encrypter();
 
   if (!recipientsAlreadyCommunicated) {
@@ -26,7 +25,9 @@ export async function encryptMessage(message: string): Promise<string> {
     encrypter.addRecipient(publicKey);
   }
 
-  const base64 = Buffer.from(encrypter.encrypt(message)).toString('base64');
+  const base64 = Buffer.from(await encrypter.encrypt(message)).toString(
+    'base64',
+  );
   const rows = (base64.match(new RegExp(/.{1,64}/, 'g')) || []).join('\n');
 
   // if the last line is exactly 64 columns, add an extra newline
@@ -47,8 +48,6 @@ export async function encryptFileAndWrite(path: string): Promise<void> {
 }
 
 export async function decryptFile(path: string, privateKey = askPrivateKey()) {
-  const { Decrypter } = await age();
-
   const decrypter = new Decrypter();
   decrypter.addIdentity(privateKey);
 

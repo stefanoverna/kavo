@@ -1,5 +1,5 @@
 import { existsSync } from 'node:fs';
-import age from 'age-encryption';
+import { generateIdentity, identityToRecipient } from 'age-encryption';
 import { boolean, command, flag } from 'cmd-ts';
 import {
   confirm,
@@ -20,10 +20,8 @@ export default command({
     }),
   },
   handler: async ({ savePrivateKey }) => {
-    const { generateIdentity, identityToRecipient } = await age();
-
-    const privateKey = generateIdentity();
-    const publicKey = identityToRecipient(privateKey);
+    const privateKey = await generateIdentity();
+    const publicKey = await identityToRecipient(privateKey);
 
     console.log(
       '=== Public key (to be added to keyring, share it with others) ===',
