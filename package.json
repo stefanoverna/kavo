@@ -6,7 +6,7 @@
   "type": "module",
   "bin": "bin/kavo.mjs",
   "scripts": {
-    "test": "npm run build && node --test test/",
+    "test": "npm run build && node --test",
     "build": "rimraf dist && tsc-multi",
     "prepare": "npx simple-git-hooks && npm run build",
     "format": "biome check --write --unsafe ."
