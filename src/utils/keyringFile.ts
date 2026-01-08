@@ -1,3 +1,5 @@
+import { readFileSync } from 'node:fs';
+import { fileURLToPath } from 'node:url';
 import fetch from 'cross-fetch';
 import { uniq } from 'lodash-es';
 import * as v from 'valibot';
@@ -13,8 +15,17 @@ export type KeyringFile = v.InferOutput<typeof KeyringFileSchema>;
 
 export async function keyringFile(): Promise<KeyringFile> {
   const [config] = await configFile();
-  const response = await fetch(config.keyring);
-  const body = await response.json();
+
+  let body: unknown;
+
+  // Support file:// URLs for local testing
+  if (config.keyring.startsWith('file://')) {
+    const filePath = fileURLToPath(config.keyring);
+    body = JSON.parse(readFileSync(filePath, 'utf-8'));
+  } else {
+    const response = await fetch(config.keyring);
+    body = await response.json();
+  }
 
   const result = v.safeParse(KeyringFileSchema, body);
 
