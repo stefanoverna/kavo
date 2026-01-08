@@ -23,6 +23,14 @@ export function askPrivateKey() {
     return readFile(privateKeyFilePath);
   }
 
+  // If stdin is not a TTY (e.g., in tests or CI), throw an error
+  // since we can't prompt for the private key
+  if (!process.stdin.isTTY) {
+    throw new Error(
+      'Private key not found. Please provide it via the --private-key flag or PRIVATE_KEY environment variable.',
+    );
+  }
+
   console.log();
 
   const prompter = prompt();
@@ -42,6 +50,11 @@ export function askPrivateKey() {
 }
 
 export function confirm(question: string): boolean {
+  // If stdin is not a TTY (e.g., in tests or CI), return false
+  if (!process.stdin.isTTY) {
+    return false;
+  }
+
   console.log();
 
   const prompter = prompt();
