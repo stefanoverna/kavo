@@ -1,6 +1,6 @@
 {
   "name": "kavo",
-  "version": "0.2.18",
+  "version": "0.2.19",
   "description": "Easy file repository encryption tool based on age, focused on simplicity and gitops",
   "main": "index.js",
   "type": "module",
